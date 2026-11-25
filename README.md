@@ -10,8 +10,10 @@ A small Retrieval-Augmented Generation (RAG) CLI project built with PHP, Symfony
 
 ## Requirements
 
-- Docker Desktop or Docker Engine with Compose
-- A Google Gemini API key
+- Docker Desktop or Docker Engine with the Docker Compose plugin (`docker compose`)
+- A Google Gemini API key, set as `GEMINI_API_KEY` in the repository-root `.env` file
+- Port `6333` available on the host for Qdrant; Compose runs Qdrant `v1.15.4` and persists its data in the `qdrant_storage` volume
+- When using Docker Compose, no local PHP installation is needed; Compose builds the app image with PHP `8.5.12`, Composer 2, and the `intl` and `zip` extensions
 - PHP 8.4+ and Composer only when running the CLI outside Docker
 
 ## Run with Docker
@@ -97,6 +99,8 @@ Question -> Gemini Embedding -> Similarity search
                                     v
              Retrieved context -> Gemini -> Answer
 ```
+
+![alt text](<./docs/RAG System Indexing and Answer Flow.png>)
 
 ## Limits
 
