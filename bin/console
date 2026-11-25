@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+require dirname(__DIR__).'/vendor/autoload.php';
+
+use App\Command\AskCommand;
+use App\Command\IngestCommand;
+use App\Rag\EmbeddingClient;
+use App\Rag\GeminiClient;
+use App\Rag\QdrantClient;
+use Symfony\Component\Console\Application;
+
+$container = require dirname(__DIR__).'/config/bootstrap.php';
+$application = new Application('Mini RAG', '1.0.0');
+$application->addCommand(new IngestCommand(
+    $container->get(EmbeddingClient::class),
+    $container->get(QdrantClient::class)
+));
+$application->addCommand(new AskCommand(
+    $container->get(EmbeddingClient::class),
+    $container->get(QdrantClient::class),
+    $container->get(GeminiClient::class)
+));
+$application->run();
